@@ -16,5 +16,5 @@ app.listen(port , ()=>{
 })
 
 app.get('/',(req,res)=>{
-    res.send("kusoo dhawoow")
+    res.send("kusoo dhawoow maqaayadeena hel cuno macan")
 })
