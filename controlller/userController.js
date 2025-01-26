@@ -22,29 +22,35 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user =await Users.findOne({ email });
+    const user = await Users.findOne({ email });
     if (user) {
-      if (user.password == password) {
-        res.status(200).json(user);
+      if (user.password === password) {
+        res.status(200).json({
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,  // Automatically include the role from the database
+        });
       } else {
-        res.status(400).json({ message: "wrong password" });
+        res.status(400).json({ message: "Wrong password" });
       }
     } else {
-      res.status(400).json({ message: "user not found" });
+      res.status(400).json({ message: "User not found" });
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 };
 
+
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, isAdmin } = req.body;
 
     const isUserExists = await Users.findOne({ email });
 
     if (isUserExists) {
-      res.status(400).json({ message: "user already exists" });
+      res.status(400).json({ message: "User already exists" });
     } else {
       const user = await Users.create({
         name,
@@ -52,6 +58,7 @@ export const createUser = async (req, res) => {
         password,
         phone,
         address,
+        isAdmin: isAdmin ?? false,  // Default to false if not provided
       });
 
       res.status(201).json(user);
@@ -60,6 +67,7 @@ export const createUser = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
+
 
 export const UpdateUser = async (req, res) => {
   try {

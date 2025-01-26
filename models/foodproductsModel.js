@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ratingSchema from './ratingsModel.js';
+import ratingSchema from './ratingModel.js';
 
 const productSchema = mongoose.Schema({
     name:{
